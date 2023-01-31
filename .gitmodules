@@ -133,3 +133,7 @@
 [submodule "generators/mempress"]
 	path = generators/mempress
 	url = https://github.com/ucb-bar/mempress.git
+[submodule "generators/SpaceFFT"]
+	path = generators/SpaceFFT
+	url = git@github.com:pznikola/SpaceFFT.git
+	branch = chipyard

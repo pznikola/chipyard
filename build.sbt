@@ -293,3 +293,164 @@ lazy val fpga_shells = (project in file("./fpga/fpga-shells"))
 lazy val fpga_platforms = (project in file("./fpga"))
   .dependsOn(chipyard, fpga_shells)
   .settings(commonSettings)
+
+
+// pznikola added
+lazy val fft = (project in file("generators/SpaceFFT/generators/sdf-fft"))
+  .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(
+    allDependencies := {
+      // drop specific maven dependencies in subprojects in favor of Chipyard's version
+      val dropDeps = Seq(("edu.berkeley.cs", "rocket-dsptools"))
+      allDependencies.value.filterNot { 
+        dep => dropDeps.contains((dep.organization, dep.name))
+      }
+    },
+    commonSettings
+  )
+
+lazy val windowing = (project in file("generators/SpaceFFT/generators/windowing"))
+  .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(
+    allDependencies := {
+      // drop specific maven dependencies in subprojects in favor of Chipyard's version
+      val dropDeps = Seq(("edu.berkeley.cs", "rocket-dsptools"))
+      allDependencies.value.filterNot { 
+        dep => dropDeps.contains((dep.organization, dep.name))
+      }
+    },
+    commonSettings
+  )
+  
+lazy val logMagMux = (project in file("generators/SpaceFFT/generators/logMagMux"))
+  .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(
+    allDependencies := {
+      // drop specific maven dependencies in subprojects in favor of Chipyard's version
+      val dropDeps = Seq(("edu.berkeley.cs", "rocket-dsptools"))
+      allDependencies.value.filterNot { 
+        dep => dropDeps.contains((dep.organization, dep.name))
+      }
+    },
+    commonSettings
+  )
+
+lazy val accumulator = (project in file("generators/SpaceFFT/generators/accumulator"))
+  .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(
+    allDependencies := {
+      // drop specific maven dependencies in subprojects in favor of Chipyard's version
+      val dropDeps = Seq(("edu.berkeley.cs", "rocket-dsptools"))
+      allDependencies.value.filterNot { 
+        dep => dropDeps.contains((dep.organization, dep.name))
+      }
+    },
+    commonSettings
+  )
+
+lazy val cfar = (project in file("generators/SpaceFFT/generators/cfar"))
+  .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(
+    allDependencies := {
+      // drop specific maven dependencies in subprojects in favor of Chipyard's version
+      val dropDeps = Seq(("edu.berkeley.cs", "rocket-dsptools"))
+      allDependencies.value.filterNot { 
+        dep => dropDeps.contains((dep.organization, dep.name))
+      }
+    },
+    commonSettings
+  )
+
+lazy val `dsp-utils` = (project in file("generators/SpaceFFT/generators/dsp-utils"))
+  .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(
+    allDependencies := {
+      // drop specific maven dependencies in subprojects in favor of Chipyard's version
+      val dropDeps = Seq(("edu.berkeley.cs", "rocket-dsptools"))
+      allDependencies.value.filterNot { 
+        dep => dropDeps.contains((dep.organization, dep.name))
+      }
+    },
+    commonSettings
+  )
+
+lazy val preproc = (project in file("generators/SpaceFFT/generators/xWRdataPreProc"))
+  .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools, `dsp-utils`)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(
+    allDependencies := {
+      // drop specific maven dependencies in subprojects in favor of Chipyard's version
+      val dropDeps = Seq(("edu.berkeley.cs", "rocket-dsptools"))
+      allDependencies.value.filterNot { 
+        dep => dropDeps.contains((dep.organization, dep.name))
+      }
+    },
+    commonSettings
+  )
+
+lazy val `chisel-crc` = (project in file("generators/SpaceFFT/generators/chisel-crc"))
+  .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(
+    allDependencies := {
+      // drop specific maven dependencies in subprojects in favor of Chipyard's version
+      val dropDeps = Seq(("edu.berkeley.cs", "rocket-dsptools"))
+      allDependencies.value.filterNot { 
+        dep => dropDeps.contains((dep.organization, dep.name))
+      }
+    },
+    commonSettings
+  )
+
+lazy val `lvds-phy` = (project in file("generators/SpaceFFT/generators/LVDS_PHY"))
+  .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools, `dsp-utils`)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(
+    allDependencies := {
+      // drop specific maven dependencies in subprojects in favor of Chipyard's version
+      val dropDeps = Seq(("edu.berkeley.cs", "rocket-dsptools"))
+      allDependencies.value.filterNot { 
+        dep => dropDeps.contains((dep.organization, dep.name))
+      }
+    },
+    commonSettings
+  )
+
+lazy val adder = (project in file("generators/SpaceFFT/generators/NonCoherentAdder"))
+  .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(
+    allDependencies := {
+      // drop specific maven dependencies in subprojects in favor of Chipyard's version
+      val dropDeps = Seq(("edu.berkeley.cs", "rocket-dsptools"))
+      allDependencies.value.filterNot { 
+        dep => dropDeps.contains((dep.organization, dep.name))
+      }
+    },
+    commonSettings
+  )
+
+lazy val SpaceFFT = freshProject("SpaceFFT", file("generators/SpaceFFT"))
+  .dependsOn(windowing, fft, logMagMux, accumulator, cfar, preproc, `chisel-crc`, `dsp-utils`, `lvds-phy`, adder)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(
+    allDependencies := {
+      // drop specific maven dependencies in subprojects in favor of Chipyard's version
+      val dropDeps = Seq(("edu.berkeley.cs", "rocket-dsptools"))
+      allDependencies.value.filterNot { 
+        dep => dropDeps.contains((dep.organization, dep.name))
+      }
+    },
+    commonSettings
+  )
+  // .settings( // Settings for scalafix
+  //   semanticdbEnabled := true,
+  //   semanticdbVersion := scalafixSemanticdb.revision,
+  //   scalacOptions += "-Ywarn-unused-import"
+  // )

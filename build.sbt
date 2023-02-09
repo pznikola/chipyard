@@ -296,7 +296,8 @@ lazy val fpga_platforms = (project in file("./fpga"))
 
 
 // pznikola added
-lazy val fft = (project in file("generators/SpaceFFT/generators/sdf-fft"))
+
+lazy val fft = freshProject("fft", file("generators/SpaceFFT/generators/sdf-fft"))
   .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(
@@ -310,7 +311,7 @@ lazy val fft = (project in file("generators/SpaceFFT/generators/sdf-fft"))
     commonSettings
   )
 
-lazy val windowing = (project in file("generators/SpaceFFT/generators/windowing"))
+lazy val windowing = freshProject("windowing", file("generators/SpaceFFT/generators/windowing"))
   .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(
@@ -324,7 +325,7 @@ lazy val windowing = (project in file("generators/SpaceFFT/generators/windowing"
     commonSettings
   )
   
-lazy val logMagMux = (project in file("generators/SpaceFFT/generators/logMagMux"))
+lazy val logMagMux = freshProject("logMagMux", file("generators/SpaceFFT/generators/logMagMux"))
   .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(
@@ -338,7 +339,7 @@ lazy val logMagMux = (project in file("generators/SpaceFFT/generators/logMagMux"
     commonSettings
   )
 
-lazy val accumulator = (project in file("generators/SpaceFFT/generators/accumulator"))
+lazy val accumulator = freshProject("accumulator", file("generators/SpaceFFT/generators/accumulator"))
   .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(
@@ -352,7 +353,7 @@ lazy val accumulator = (project in file("generators/SpaceFFT/generators/accumula
     commonSettings
   )
 
-lazy val cfar = (project in file("generators/SpaceFFT/generators/cfar"))
+lazy val lis = freshProject("lis", file("generators/SpaceFFT/generators/cfar/lis"))
   .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(
@@ -366,7 +367,22 @@ lazy val cfar = (project in file("generators/SpaceFFT/generators/cfar"))
     commonSettings
   )
 
-lazy val `dsp-utils` = (project in file("generators/SpaceFFT/generators/dsp-utils"))
+lazy val cfar = freshProject("cfar", file("generators/SpaceFFT/generators/cfar"))
+  .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools, lis)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(libraryDependencies ++= Seq("org.scalanlp" %% "breeze-viz" % "0.13.2"))
+  .settings(
+    allDependencies := {
+      // drop specific maven dependencies in subprojects in favor of Chipyard's version
+      val dropDeps = Seq(("edu.berkeley.cs", "rocket-dsptools"))
+      allDependencies.value.filterNot { 
+        dep => dropDeps.contains((dep.organization, dep.name))
+      }
+    },
+    commonSettings
+  )
+
+lazy val `dsp-utils` = freshProject("dsp-utils", file("generators/SpaceFFT/generators/dsp-utils"))
   .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(
@@ -380,7 +396,7 @@ lazy val `dsp-utils` = (project in file("generators/SpaceFFT/generators/dsp-util
     commonSettings
   )
 
-lazy val preproc = (project in file("generators/SpaceFFT/generators/xWRdataPreProc"))
+lazy val preproc = freshProject("preproc", file("generators/SpaceFFT/generators/xWRdataPreProc"))
   .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools, `dsp-utils`)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(
@@ -394,7 +410,7 @@ lazy val preproc = (project in file("generators/SpaceFFT/generators/xWRdataPrePr
     commonSettings
   )
 
-lazy val `chisel-crc` = (project in file("generators/SpaceFFT/generators/chisel-crc"))
+lazy val `chisel-crc` = freshProject("chisel-crc", file("generators/SpaceFFT/generators/chisel-crc"))
   .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(
@@ -408,7 +424,7 @@ lazy val `chisel-crc` = (project in file("generators/SpaceFFT/generators/chisel-
     commonSettings
   )
 
-lazy val `lvds-phy` = (project in file("generators/SpaceFFT/generators/LVDS_PHY"))
+lazy val `lvds-phy` = freshProject("lvds-phy", file("generators/SpaceFFT/generators/LVDS_PHY"))
   .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools, `dsp-utils`)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(
@@ -422,7 +438,7 @@ lazy val `lvds-phy` = (project in file("generators/SpaceFFT/generators/LVDS_PHY"
     commonSettings
   )
 
-lazy val adder = (project in file("generators/SpaceFFT/generators/NonCoherentAdder"))
+lazy val adder = freshProject("adder", file("generators/SpaceFFT/generators/NonCoherentAdder"))
   .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(

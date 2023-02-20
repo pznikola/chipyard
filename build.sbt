@@ -49,7 +49,8 @@ def freshProject(name: String, dir: File): Project = {
   Project(id = name, base = dir / "src")
     .settings(
       Compile / scalaSource := baseDirectory.value / "main" / "scala",
-      Compile / resourceDirectory := baseDirectory.value / "main" / "resources"
+      Compile / resourceDirectory := baseDirectory.value / "main" / "resources",
+      Test / scalaSource := baseDirectory.value / "test" / "scala",
     )
 }
 
@@ -299,7 +300,12 @@ lazy val fpga_platforms = (project in file("./fpga"))
 
 lazy val fft = freshProject("fft", file("generators/SpaceFFT/generators/sdf-fft"))
   .dependsOn(rocketchip, `rocket-dsp-utils`, `api-config-chipsalliance`, dsptools)
-  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(
+    libraryDependencies ++= rocketLibDeps.value,
+    libraryDependencies ++= Seq(
+      "org.scalanlp" %% "breeze-viz" % "0.13.2",
+    )
+  )
   .settings(
     allDependencies := {
       // drop specific maven dependencies in subprojects in favor of Chipyard's version

@@ -150,7 +150,7 @@ lazy val chipyard = (project in file("generators/chipyard"))
     sha3, // On separate line to allow for cleaner tutorial-setup patches
     dsptools, `rocket-dsp-utils`,
     gemmini, icenet, tracegen, cva6, nvdla, sodor, ibex, fft_generator,
-    constellation, mempress)
+    constellation, mempress,spaceFFT)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(commonSettings)
 
@@ -458,7 +458,7 @@ lazy val adder = freshProject("adder", file("generators/SpaceFFT/generators/NonC
     commonSettings
   )
 
-lazy val SpaceFFT = freshProject("SpaceFFT", file("generators/SpaceFFT"))
+lazy val spaceFFT = freshProject("SpaceFFT", file("generators/SpaceFFT"))
   .dependsOn(windowing, fft, logMagMux, accumulator, cfar, preproc, `chisel-crc`, `dsp-utils`, `lvds-phy`, adder)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(
@@ -471,8 +471,8 @@ lazy val SpaceFFT = freshProject("SpaceFFT", file("generators/SpaceFFT"))
     },
     commonSettings
   )
-  // .settings( // Settings for scalafix
-  //   semanticdbEnabled := true,
-  //   semanticdbVersion := scalafixSemanticdb.revision,
-  //   scalacOptions += "-Ywarn-unused-import"
-  // )
+  .settings( // Settings for scalafix
+    semanticdbEnabled := true,
+    semanticdbVersion := scalafixSemanticdb.revision,
+    scalacOptions += "-Ywarn-unused-import"
+  )

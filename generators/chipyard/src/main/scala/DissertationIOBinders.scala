@@ -41,7 +41,7 @@ class WithDissertationPunchthrough extends OverrideLazyIOBinder({
                                              Vec(system.dissertation.get(2).length,Flipped(system.dissertation.get(2).head.cloneType))))
         (system.dissertation.get(0), pins.io_in_1D).zipped.map { (out, in) => { out <> in }}
         (pins.io_out_1D, system.dissertation.get(1)).zipped.map{ (out, in) => { out <> in }}
-        (pins.io_out_1D, system.dissertation.get(2)).zipped.map{ (out, in) => { out <> in }}
+        (pins.io_out_2D, system.dissertation.get(2)).zipped.map{ (out, in) => { out <> in }}
         Seq(pins)
       }
       (ports, Nil)

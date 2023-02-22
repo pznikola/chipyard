@@ -37,5 +37,6 @@ class WithTiedOffDissertation extends OverrideHarnessBinder({
   (system: CanHavePeripheryAXI4Dissertation, th: HasHarnessSignalReferences, ports: Seq[AXI4DissertationIO[AXI4StreamBundle]]) => {
     val p: Parameters = chipyard.iobinders.GetSystemParameters(system)
     ports.map { case port => AXI4DissertationAdapter.tieoff(port) }
+    // ports.map { case port => AXI4DissertationAdapter.connectSimAdapter(port, th.buildtopClock, th.buildtopReset.asBool) }
   }
 })

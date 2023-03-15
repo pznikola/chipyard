@@ -16,6 +16,13 @@ class DissertationRocketConfig extends Config(
     new freechips.rocketchip.subsystem.WithNBigCores(1) ++         // single rocket-core
     new chipyard.config.AbstractConfig)
 
+class DissertationMedRocketConfig extends Config(
+    new dissertation.WithAXI4Dissertation((new DissertationMeasurementParams(rangeFFTSize = 1024, dopplerFFTSize = 256, ddrType = NoDDR, channels = 4)).params) ++
+    new chipyard.iobinders.WithDissertationPunchthrough ++
+    new chipyard.harness.WithTiedOffDissertation        ++
+    new freechips.rocketchip.subsystem.WithNMedCores(1) ++         // single rocket-core
+    new chipyard.config.AbstractConfig)
+
 class DissertationTinyRocketConfig extends Config(
     new dissertation.WithAXI4Dissertation((new DissertationMeasurementParams(rangeFFTSize = 1024, dopplerFFTSize = 256, ddrType = NoDDR, channels = 4)).params) ++
     new chipyard.iobinders.WithDissertationPunchthrough ++

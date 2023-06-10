@@ -458,8 +458,13 @@ lazy val adder = freshProject("adder", file("generators/SpaceFFT/generators/NonC
     commonSettings
   )
 
+
+// AntMicro DMA
+lazy val dma = (project in file("generators/SpaceFFT/generators/fastvdma"))
+  .settings(commonSettings)
+
 lazy val spaceFFT = freshProject("SpaceFFT", file("generators/SpaceFFT"))
-  .dependsOn(windowing, fft, logMagMux, accumulator, cfar, preproc, `chisel-crc`, `dsp-utils`, `lvds-phy`, adder)
+  .dependsOn(windowing, fft, logMagMux, accumulator, cfar, preproc, `chisel-crc`, `dsp-utils`, `lvds-phy`, adder, dma)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(
     allDependencies := {

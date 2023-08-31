@@ -37,13 +37,13 @@ class NexysVideoHarness(override implicit val p: Parameters) extends NexysVideoS
   val io_uart_bb = BundleBridgeSource(() => new UARTPortIO(dp(PeripheryUARTKey).headOption.getOrElse(UARTParams(0))))
   val uartOverlay = dp(UARTOverlayKey).head.place(UARTDesignInput(io_uart_bb))
 
-  val ddrOverlay = dp(DDROverlayKey).head.place(DDRDesignInput(dp(ExtTLMem).get.master.base, dutWrangler.node, harnessSysPLLNode)).asInstanceOf[DDRNexysVideoPlacedOverlay]
-  val ddrClient = TLClientNode(Seq(TLMasterPortParameters.v1(Seq(TLMasterParameters.v1(
+  val ddrOverlay = if (dp(DDRKey) != None) Some(dp(DDROverlayKey).head.place(DDRDesignInput(dp(ExtTLMem).get.master.base, dutWrangler.node, harnessSysPLLNode)).asInstanceOf[DDRNexysVideoPlacedOverlay]) else None
+  val ddrClient = if (dp(DDRKey) != None) Some(TLClientNode(Seq(TLMasterPortParameters.v1(Seq(TLMasterParameters.v1(
     name = "chip_ddr",
     sourceId = IdRange(0, 1 << dp(ExtTLMem).get.master.idBits)
-  )))))
-  val ddrBlockDuringReset = LazyModule(new TLBlockDuringReset(4))
-  ddrOverlay.overlayOutput.ddr := ddrBlockDuringReset.node := ddrClient
+  )))))) else None
+  val ddrBlockDuringReset = if (dp(DDRKey) != None) Some(LazyModule(new TLBlockDuringReset(4))) else None
+  if (dp(DDRKey) != None) ddrOverlay.get.overlayOutput.ddr := ddrBlockDuringReset.get.node := ddrClient.get
 
   val ledOverlays = dp(LEDOverlayKey).map(_.place(LEDDesignInput()))
   val all_leds = ledOverlays.map(_.overlayOutput.led)
@@ -86,10 +86,12 @@ class NexysVideoHarness(override implicit val p: Parameters) extends NexysVideoS
     def referenceReset = dutClock.in.head._1.reset
     def success = { require(false, "Unused"); false.B }
 
-    ddrOverlay.mig.module.clock := harnessBinderClock
-    ddrOverlay.mig.module.reset := harnessBinderReset
-    ddrBlockDuringReset.module.clock := harnessBinderClock
-    ddrBlockDuringReset.module.reset := harnessBinderReset.asBool || !ddrOverlay.mig.module.io.port.init_calib_complete
+    if (dp(DDRKey) != None) {
+      ddrOverlay.get.mig.module.clock := harnessBinderClock
+      ddrOverlay.get.mig.module.reset := harnessBinderReset
+      ddrBlockDuringReset.get.module.clock := harnessBinderClock
+      ddrBlockDuringReset.get.module.reset := harnessBinderReset.asBool || !ddrOverlay.get.mig.module.io.port.init_calib_complete
+    }
 
     // other_leds(6) := ddrOverlay.mig.module.io.port.init_calib_complete
 

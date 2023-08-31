@@ -49,8 +49,8 @@ class WithNexysVideoUARTTSI(uartBaudRate: BigInt = 115200) extends OverrideHarne
 class WithNexysVideoDDRTL extends OverrideHarnessBinder({
   (system: CanHaveMasterTLMemPort, th: HasHarnessInstantiators, ports: Seq[HeterogeneousBag[TLBundle]]) => {
     require(ports.size == 1)
-    val artyTh = th.asInstanceOf[LazyRawModuleImp].wrapper.asInstanceOf[NexysVideoHarness]
-    val bundles = artyTh.ddrClient.out.map(_._1)
+    val nexysTh = th.asInstanceOf[LazyRawModuleImp].wrapper.asInstanceOf[NexysVideoHarness]
+    val bundles = nexysTh.ddrClient.get.out.map(_._1)
     val ddrClientBundle = Wire(new HeterogeneousBag(bundles.map(_.cloneType)))
     bundles.zip(ddrClientBundle).foreach { case (bundle, io) => bundle <> io }
     ddrClientBundle <> ports.head

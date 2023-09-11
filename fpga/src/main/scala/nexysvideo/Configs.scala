@@ -49,14 +49,14 @@ class RocketNexysVideoConfig extends Config(
 class WithTinyNexysVideoTweaks extends Config(
   new WithNexysVideoUARTTSI ++
   new WithNoDesignKey ++
-  new chipyard.config.WithMemoryBusFrequency(100.0) ++
-  new chipyard.config.WithSystemBusFrequency(100.0) ++
-  new chipyard.config.WithPeripheryBusFrequency(100.0) ++  // Match the sbus and pbus frequency
+  new chipyard.harness.WithHarnessBinderClockFreqMHz(50) ++
+  new chipyard.config.WithMemoryBusFrequency(50.0) ++
+  new chipyard.config.WithSystemBusFrequency(50.0) ++
+  new chipyard.config.WithPeripheryBusFrequency(50.0) ++
   new chipyard.harness.WithAllClocksFromHarnessClockInstantiator ++
   new chipyard.clocking.WithPassthroughClockGenerator ++
   new chipyard.config.WithNoDebug ++ // no jtag
   new chipyard.config.WithNoUART ++ // use UART for the UART-TSI thing instad
-  new chipyard.config.WithTLBackingMemory ++ // FPGA-shells converts the AXI to TL for us
   new freechips.rocketchip.subsystem.WithoutTLMonitors)
 
 class TinyRocketNexysVideoConfig extends Config(

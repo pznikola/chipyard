@@ -2,21 +2,15 @@ package chipyard.fpga.nexysvideo
 
 import chisel3._
 
-import freechips.rocketchip.jtag.{JTAGIO}
 import freechips.rocketchip.subsystem.{PeripheryBusKey}
 import freechips.rocketchip.tilelink.{TLBundle}
 import freechips.rocketchip.util.{HeterogeneousBag}
 import freechips.rocketchip.diplomacy.{LazyRawModuleImp}
 
-import sifive.blocks.devices.uart.{UARTPortIO, HasPeripheryUARTModuleImp, UARTParams}
-import sifive.blocks.devices.jtag.{JTAGPins, JTAGPinsFromPort}
-import sifive.blocks.devices.pinctrl.{BasePin}
-
-import sifive.fpgashells.ip.xilinx.{IBUFG, IOBUF, PULLUP, PowerOnResetFPGAOnly}
+import sifive.blocks.devices.uart.{UARTParams}
 
 import chipyard._
 import chipyard.harness._
-import chipyard.iobinders.JTAGChipIO
 
 import testchipip._
 
@@ -36,7 +30,6 @@ class WithNexysVideoUARTTSI(uartBaudRate: BigInt = 115200) extends OverrideHarne
       ram.module.io.tsi.flipConnect(serial_width_adapter.io.wide)
 
       ath.io_uart_bb.bundle <> uart_to_serial.io.uart
-      // ath.other_leds(0) := uart_to_serial.io.dropped
 
       ath.other_leds(1) := ram.module.io.tsi2tl_state(0)
       ath.other_leds(2) := ram.module.io.tsi2tl_state(1)

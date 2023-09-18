@@ -72,13 +72,6 @@ class NexysVideoHarness(override implicit val p: Parameters) extends NexysVideoS
 
     other_leds(0) := resetPin
 
-    val ila = Module(new sifive.fpgashells.ip.xilinx.ILA_LEDS())
-    ila.io.clk    := clk_100mhz
-    ila.io.probe0 := dutClock.in.head._1.reset
-    ila.io.probe1 := resetPin
-    ila.io.probe2 := io_uart_bb.bundle.txd
-    ila.io.probe3 := io_uart_bb.bundle.rxd
-
     harnessSysPLL.plls.foreach(_._1.getReset.get := pllReset)
 
     def referenceClockFreqMHz = dutFreqMHz
@@ -92,8 +85,6 @@ class NexysVideoHarness(override implicit val p: Parameters) extends NexysVideoS
       ddrBlockDuringReset.get.module.clock := harnessBinderClock
       ddrBlockDuringReset.get.module.reset := harnessBinderReset.asBool || !ddrOverlay.get.mig.module.io.port.init_calib_complete
     }
-
-    // other_leds(6) := ddrOverlay.mig.module.io.port.init_calib_complete
 
     instantiateChipTops()
   }

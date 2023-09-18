@@ -45,7 +45,7 @@ class RocketNexysVideoConfig extends Config(
   new chipyard.RocketConfig)
 // DOC include end: WithNexysVideoTweaks and Rocket
 
-// DOC include start: WithNexysVideoTweaks and Rocket
+// DOC include start: WithTinyNexysVideoTweaks and Rocket
 class WithTinyNexysVideoTweaks extends Config(
   new WithNexysVideoUARTTSI ++
   new WithNoDesignKey ++
@@ -63,4 +63,4 @@ class TinyRocketNexysVideoConfig extends Config(
   new WithTinyNexysVideoTweaks ++
   new chipyard.config.WithBroadcastManager ++ // no l2
   new chipyard.TinyRocketConfig)
-  // DOC include end: WithNexysVideoTweaks and Rocket
+  // DOC include end: WithTinyNexysVideoTweaks and Rocket

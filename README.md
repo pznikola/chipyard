@@ -10,7 +10,7 @@ The error is:
 [error] java.lang.ClassCastException: class freechips.rocketchip.amba.axi4stream.AXI4StreamBundle cannot be cast to class scala.runtime.Nothing$ (freechips.rocketchip.amba.axi4stream.AXI4StreamBundle is in unnamed module of loader sbt.internal.LayeredClassLoader @32b6f42; scala.runtime.Nothing$ is in unnamed module of loader sbt.internal.ScalaLibraryClassLoader @490fb4e8)
 ```
 
-Which can be solved by modifying the [BundleBridge.scala](./generators/rocket-chip/src/main/scala/diplomacy/BundleBridge.scala) from:
+Which can be solved by modifying the [BundleBridge.scala](https://github.com/chipsalliance/rocket-chip/blob/master/src/main/scala/diplomacy/BundleBridge.scala) from:
 ```scala
 val io: T = IO(if (inferInput) Input(chiselTypeOf(bundle)) else Flipped(chiselTypeClone(bundle)))
 ```

@@ -130,3 +130,6 @@
 [submodule "generators/bar-fetchers"]
 	path = generators/bar-fetchers
 	url = https://github.com/ucb-bar/bar-fetchers.git
+[submodule "generators/fastdma"]
+	path = generators/fastdma
+	url = git@github.com:pznikola/fastvdma.git
